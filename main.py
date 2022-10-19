@@ -85,9 +85,10 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
 
 # Line below only required once, when creating DB.
-#db.create_all()
+# db.create_all()
 
-#Create admin-only decorator
+
+# Create admin-only decorator
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -108,9 +109,11 @@ def get_all_posts():
     posts = BlogPost.query.all()
     return render_template("index.html", all_posts=posts, current_user=current_user)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -141,6 +144,7 @@ def register():
         return redirect(url_for('get_all_posts', current_user=current_user))
     return render_template("register.html", form=register_form)
 
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
     login_form = LoginForm()
@@ -163,10 +167,12 @@ def login():
             return redirect(url_for('get_all_posts'))
     return render_template("login.html", form=login_form, current_user=current_user)
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('get_all_posts'))
+
 
 # DON'T FORGET THE methods=["GET", "POST"]
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
