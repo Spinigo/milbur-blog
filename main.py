@@ -29,7 +29,7 @@ gravatar = Gravatar(app,
                     base_url=None)
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')  # 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///blog.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -86,7 +86,7 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
 
 # Line below only required once, when creating DB.
-# db.create_all()
+db.create_all()
 
 
 # Create admin-only decorator
@@ -266,4 +266,4 @@ def delete_post(post_id):
 
 if __name__ == "__main__":
     if __name__ == "__main__":
-        app.run(host='localhost', port=5000, debug=True)
+        app.run(host='localhost', port=4997, debug=True)
